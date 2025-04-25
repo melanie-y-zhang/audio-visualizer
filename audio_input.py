@@ -11,7 +11,7 @@ class AudioInput:
 
         self.stream = sd.InputStream(
             device =0,
-            channels=1,
+            channels=2,
             callback=self.audio_callback,
             blocksize=BUFFER_SIZE,
             samplerate=SAMPLE_RATE
@@ -24,8 +24,9 @@ class AudioInput:
         self.stream.stop()
 
     def audio_callback(self, indata, frames, time, status):
-        audio_data = np.squeeze(indata)
-        self.volume = np.linalg.norm(audio_data)
+        mono_data = np.mean(indata, axis=1)
+        self.volume = np.linalg.norm(mono_data) / len(mono_data)
+        self.fft = np.abs(np.fft.rfft(mono_data))
 
         fft_raw = np.abs(np.fft.rfft(audio_data))
 
@@ -34,6 +35,3 @@ class AudioInput:
         fft_scaled = np.power(fft_scaled, 1.4)
 
         self.fft = fft_scaled
-
-
-
