@@ -43,7 +43,7 @@ class AudioInput:
         self.volume = np.linalg.norm(mono_data) / len(mono_data)
         self.fft = np.abs(np.fft.rfft(mono_data))
 
-        fft_raw = np.abs(np.fft.rfft(mono))
+        fft_raw = np.abs(np.fft.rfft(mono_data))
 
         fft_scaled = fft_raw * 1000  
 
