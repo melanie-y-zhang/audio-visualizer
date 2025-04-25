@@ -10,7 +10,7 @@ class AudioInput:
         self.fft = np.zeros(BUFFER_SIZE)
 
         self.stream = sd.InputStream(
-            device =1,
+            device =0,
             channels=1,
             callback=self.audio_callback,
             blocksize=BUFFER_SIZE,
